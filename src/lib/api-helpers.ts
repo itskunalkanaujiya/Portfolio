@@ -11,7 +11,6 @@ import { getAdminSession } from "@/lib/auth";
 // declared with `unknown` args — even though every delegate genuinely
 // supports these calls at runtime. The Zod schema below is the actual
 // validation safety net, not this parameter's TS shape.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Delegate = any;
 
 interface ListHandlerOptions {
