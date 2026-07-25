@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #7c3aed;
+  --color-secondary: #00e5ff;
+  --color-bg: #050816;
+}
+
+* {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  cursor: none;
+}
+
+@media (max-width: 768px), (hover: none) {
+  body {
+    cursor: auto;
+  }
+}
+
+/* ---------- Scrollbar ---------- */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #050816;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #7c3aed, #00e5ff);
+  border-radius: 999px;
+}
+
+/* ---------- Selection ---------- */
+::selection {
+  background: #7c3aed;
+  color: white;
+}
+
+/* ---------- Focus states (accessibility) ---------- */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #00e5ff;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---------- Glassmorphism ---------- */
+.glass {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-card {
+  @apply glass rounded-2xl transition-all duration-300;
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(124, 58, 237, 0.4);
+  box-shadow: 0 0 40px -10px rgba(124, 58, 237, 0.4);
+}
+
+/* ---------- Gradient text ---------- */
+.gradient-text {
+  background: linear-gradient(135deg, #7c3aed 0%, #00e5ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- Glow ---------- */
+.glow-purple {
+  box-shadow: 0 0 60px -15px rgba(124, 58, 237, 0.6);
+}
+.glow-cyan {
+  box-shadow: 0 0 60px -15px rgba(0, 229, 255, 0.6);
+}
+
+/* ---------- Section container ---------- */
+.section-container {
+  @apply mx-auto w-full max-w-7xl px-6 py-24 sm:px-10 lg:px-16;
+}
+
+.section-eyebrow {
+  @apply font-display text-sm font-semibold uppercase tracking-[0.3em] text-secondary;
+}
+
+.section-heading {
+  @apply font-display text-4xl font-bold sm:text-5xl lg:text-6xl;
+}
+
+/* ---------- Blob background ---------- */
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

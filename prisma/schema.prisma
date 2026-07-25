@@ -1,0 +1,117 @@
+// ============================================================
+// Prisma schema — Premium Portfolio
+// Run `npm run db:push` (quick prototyping) or
+// `npm run db:migrate` (versioned migration) after setting DATABASE_URL
+// ============================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model Project {
+  id           String   @id @default(cuid())
+  title        String
+  slug         String   @unique
+  description  String
+  longDescription String?
+  image        String   // PROJECT_IMAGE placeholder path
+  gallery      String[] @default([])
+  techStack    String[] @default([])
+  category     String   // e.g. "Full Stack", "AI/ML", "Frontend"
+  githubUrl    String?
+  liveUrl      String?
+  featured     Boolean  @default(false)
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Education {
+  id          String   @id @default(cuid())
+  degree      String
+  institution String
+  cgpa        String?
+  startDate   String
+  endDate     String
+  description String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model Experience {
+  id              String   @id @default(cuid())
+  role            String
+  company         String
+  companyLogo     String?
+  startDate       String
+  endDate         String
+  responsibilities String[] @default([])
+  achievements    String[] @default([])
+  order           Int      @default(0)
+  createdAt       DateTime @default(now())
+}
+
+model Achievement {
+  id          String   @id @default(cuid())
+  title       String
+  issuer      String?
+  category    String   // "Certificate" | "Hackathon" | "Award" | "CP"
+  image       String?
+  date        String?
+  url         String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model GalleryItem {
+  id        String   @id @default(cuid())
+  image     String
+  caption   String?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  role      String?
+  avatar    String?
+  message   String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model BlogPost {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  excerpt   String
+  content   String   // markdown
+  coverImage String?
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
