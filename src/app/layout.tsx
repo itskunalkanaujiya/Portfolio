@@ -4,6 +4,7 @@ import "./globals.css";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import CustomCursor from "@/components/CustomCursor";
 import { Toaster } from "sonner";
+import { getSiteUrl } from "@/lib/utils";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -17,7 +18,7 @@ const inter = Inter({
   display: "swap",
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://your-domain.com";
+const siteUrl = getSiteUrl();
 const siteName = process.env.NEXT_PUBLIC_SITE_NAME || "YOUR_NAME | Portfolio";
 
 export const metadata: Metadata = {

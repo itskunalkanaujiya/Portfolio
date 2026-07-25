@@ -37,3 +37,22 @@ export function isRenderableImagePath(path?: string | null): path is string {
     trimmed.startsWith("https://")
   );
 }
+
+// Defensive parsing for NEXT_PUBLIC_SITE_URL: people often copy the value
+// straight out of a .env file into a hosting provider's environment variable
+// UI, quotes and all (e.g. `"https://x.com"` instead of `https://x.com`),
+// which crashes `new URL()`. Strip stray wrapping quotes, and fall back to a
+// safe default rather than producing a broken value if it's still not a
+// valid URL.
+export function getSiteUrl(): string {
+  const raw = (process.env.NEXT_PUBLIC_SITE_URL || "https://your-domain.com").trim();
+  const unquoted = raw.replace(/^["']|["']$/g, "");
+  try {
+    return new URL(unquoted).toString().replace(/\/$/, "");
+  } catch {
+    console.warn(
+      `NEXT_PUBLIC_SITE_URL ("${raw}") is not a valid URL — falling back to https://your-domain.com. Check for stray quotes in your environment variable value.`
+    );
+    return "https://your-domain.com";
+  }
+}

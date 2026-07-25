@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 import { getBlogPosts } from "@/lib/queries";
+import { getSiteUrl } from "@/lib/utils";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://your-domain.com";
+  const siteUrl = getSiteUrl();
   const posts = await getBlogPosts();
 
   const staticRoutes: MetadataRoute.Sitemap = [
