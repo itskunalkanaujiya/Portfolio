@@ -2,14 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 import type { ZodObject, ZodRawShape } from "zod";
 import { getAdminSession } from "@/lib/auth";
 
-// Minimal shape every Prisma model delegate (prisma.project, prisma.education, ...) satisfies.
-interface Delegate {
-  findMany: (args?: unknown) => Promise<unknown[]>;
-  create: (args: { data: unknown }) => Promise<unknown>;
-  findUnique: (args: { where: { id: string } }) => Promise<unknown>;
-  update: (args: { where: { id: string }; data: unknown }) => Promise<unknown>;
-  delete: (args: { where: { id: string } }) => Promise<unknown>;
-}
+// Every Prisma model delegate (prisma.project, prisma.education, ...) is
+// passed in here. We intentionally type it as `any` rather than a strict
+// interface: TypeScript's strictFunctionTypes checks arrow-function-typed
+// interface properties contravariantly, so a real generated Prisma delegate
+// (whose findMany/create/etc. take specific typed args like
+// AchievementFindManyArgs) fails to structurally satisfy a Delegate interface
+// declared with `unknown` args — even though every delegate genuinely
+// supports these calls at runtime. The Zod schema below is the actual
+// validation safety net, not this parameter's TS shape.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Delegate = any;
 
 interface ListHandlerOptions {
   orderBy?: unknown;
