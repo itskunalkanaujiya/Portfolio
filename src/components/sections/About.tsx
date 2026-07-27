@@ -11,7 +11,7 @@ import { isRenderableImagePath } from "@/lib/utils";
 import { FiMapPin, FiCalendar, FiBookOpen, FiCode } from "react-icons/fi";
 
 const personalDetails = [
-  { icon: FiMapPin, label: "Location", value: "Lucknow , India" },
+  { icon: FiMapPin, label: "Location", value: "Lucknow, India" },
   { icon: FiCalendar, label: "Availability", value: "Open to opportunities" },
   { icon: FiBookOpen, label: "Education", value: "B.Tech-CS(AI), IET LKO" },
   { icon: FiCode, label: "Focus", value: "Full Stack & AI/ML" },
@@ -61,11 +61,9 @@ export default function About() {
             <div className="space-y-4 text-white/70">
               <p>
                 I&apos;m <strong className="text-white">Kunal Kanaujiya</strong>, a software engineer passionate about building intelligent applications at the intersection of AI, Machine Learning, and scalable software engineering. I enjoy creating LLM-powered solutions, RAG systems, and end-to-end AI products that solve real-world problems. From developing conversational AI and NLP applications to optimizing user experiences with clean engineering, I&apos;m driven by curiosity, continuous learning, and building technology that makes a meaningful impact.
-
               </p>
               <p>
-                When I&apos;m not at my desk, you'll usually find me on the cricket field, exploring the latest breakthroughs in AI, or challenging myself with new ideas and technologies. 
-
+                When I&apos;m not at my desk, you&apos;ll usually find me on the cricket field, exploring the latest breakthroughs in AI, or challenging myself with new ideas and technologies.
               </p>
             </div>
 
