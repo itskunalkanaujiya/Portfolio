@@ -9,9 +9,6 @@ import Projects from "@/components/sections/Projects";
 import Achievements from "@/components/sections/Achievements";
 import StatsHighlight from "@/components/sections/StatsHighlight";
 import CodingProfiles from "@/components/sections/CodingProfiles";
-import Testimonials from "@/components/sections/Testimonials";
-import Gallery from "@/components/sections/Gallery";
-import BlogPreview from "@/components/sections/BlogPreview";
 import Contact from "@/components/sections/Contact";
 
 export default function HomePage() {
@@ -28,9 +25,6 @@ export default function HomePage() {
         <Achievements />
         <StatsHighlight />
         <CodingProfiles />
-        <Testimonials />
-        <Gallery />
-        <BlogPreview />
         <Contact />
       </main>
       <Footer />

@@ -14,7 +14,7 @@ export default function Footer() {
       <div className="section-container grid gap-10 !py-16 sm:grid-cols-3">
         <div>
           <a href="#hero" className="font-display text-xl font-bold">
-            <span className="gradient-text">YOUR_NAME</span>
+            <span className="gradient-text">Kunal Kanaujiya</span>
           </a>
           <p className="mt-3 max-w-xs text-sm text-white/50">
             Building premium, performant digital experiences — one project at a time.
@@ -64,7 +64,7 @@ export default function Footer() {
 
       <div className="section-container flex flex-col items-center justify-between gap-4 border-t border-white/5 !py-6 sm:flex-row">
         <p className="text-xs text-white/40">
-          © {year} YOUR_NAME. All rights reserved.
+          © {year} Kunal Kanaujiya. All rights reserved.
         </p>
         <button
           onClick={scrollToTop}

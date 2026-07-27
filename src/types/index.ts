@@ -3,15 +3,10 @@ export interface NavLink {
   href: string;
 }
 
-export interface Skill {
-  name: string;
-  level: number; // 0-100
-}
-
 export interface SkillCategory {
   category: string;
   icon: string; // react-icons key handled in component map
-  skills: Skill[];
+  skills: string[];
 }
 
 export interface CodingProfile {

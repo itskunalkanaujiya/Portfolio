@@ -54,7 +54,7 @@ export function ProjectModal({
                   alt={`${project.title} screenshot ${imgIndex + 1}`}
                   fill
                   sizes="(max-width: 768px) 100vw, 700px"
-                  className="object-cover"
+                  className="object-contain p-2"
                 />
               ) : (
                 <div className="flex h-full w-full items-center justify-center text-sm text-white/30">

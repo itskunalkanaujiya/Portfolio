@@ -5,8 +5,6 @@ import type {
   ExperienceDTO,
   AchievementDTO,
   GalleryItemDTO,
-  TestimonialDTO,
-  BlogPostDTO,
 } from "@/types";
 
 /**
@@ -117,25 +115,6 @@ const fallbackGallery = [
   { id: "fallback-4", image: "/images/GALLERY_IMAGE_4.jpg", caption: "Placeholder caption 4", order: 4 },
 ];
 
-const fallbackTestimonials = [
-  { id: "fallback-1", name: "TESTIMONIAL_NAME_1", role: "Manager at COMPANY_NAME", avatar: null, message: "Placeholder testimonial praising the candidate's work ethic and skill.", order: 1 },
-  { id: "fallback-2", name: "TESTIMONIAL_NAME_2", role: "Peer / Collaborator", avatar: null, message: "Placeholder testimonial about collaboration and delivery quality.", order: 2 },
-  { id: "fallback-3", name: "TESTIMONIAL_NAME_3", role: "Client", avatar: null, message: "Placeholder testimonial about a great client experience.", order: 3 },
-];
-
-const fallbackBlogPosts = [
-  {
-    id: "fallback-1",
-    title: "My First Blog Post",
-    slug: "my-first-blog-post",
-    excerpt: "A placeholder excerpt introducing the blog post topic.",
-    content: "# My First Blog Post\n\nThis is placeholder **markdown** content.",
-    coverImage: "/images/BLOG_COVER_1.jpg",
-    published: true,
-    createdAt: new Date().toISOString(),
-  },
-];
-
 export async function getEducation(): Promise<EducationDTO[]> {
   try {
     const data = await prisma.education.findMany({ orderBy: { order: "asc" } });
@@ -179,35 +158,4 @@ export async function getGallery(): Promise<GalleryItemDTO[]> {
   } catch {
     return fallbackGallery;
   }
-}
-
-export async function getTestimonials(): Promise<TestimonialDTO[]> {
-  try {
-    const data = await prisma.testimonial.findMany({ orderBy: { order: "asc" } });
-    return data.length ? data : fallbackTestimonials;
-  } catch {
-    return fallbackTestimonials;
-  }
-}
-
-export async function getBlogPosts(): Promise<BlogPostDTO[]> {
-  try {
-    const data = await prisma.blogPost.findMany({
-      where: { published: true },
-      orderBy: { createdAt: "desc" },
-    });
-    return data.length ? data : fallbackBlogPosts;
-  } catch {
-    return fallbackBlogPosts;
-  }
-}
-
-export async function getBlogPostBySlug(slug: string): Promise<BlogPostDTO | null> {
-  try {
-    const post = await prisma.blogPost.findUnique({ where: { slug } });
-    if (post) return post;
-  } catch {
-    /* fall through to fallback */
-  }
-  return fallbackBlogPosts.find((p) => p.slug === slug) ?? null;
 }

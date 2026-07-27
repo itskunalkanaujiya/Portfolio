@@ -60,41 +60,5 @@ export const adminResourceConfigs: AdminResourceConfig[] = [
       { key: "url", label: "Link (optional)", type: "text" },
     ],
   },
-  {
-    resource: "gallery",
-    label: "Gallery",
-    titleKey: "caption",
-    subtitleKey: "image",
-    fields: [
-      { key: "image", label: "Image path", type: "text", required: true, placeholder: "/images/GALLERY_IMAGE.jpg" },
-      { key: "caption", label: "Caption", type: "textarea" },
-    ],
-  },
-  {
-    resource: "testimonials",
-    label: "Testimonials",
-    titleKey: "name",
-    subtitleKey: "role",
-    fields: [
-      { key: "name", label: "Name", type: "text", required: true },
-      { key: "role", label: "Role / relationship", type: "text", placeholder: "Manager at COMPANY_NAME" },
-      { key: "avatar", label: "Avatar image path", type: "text" },
-      { key: "message", label: "Testimonial", type: "textarea", required: true },
-    ],
-  },
-  {
-    resource: "blog",
-    label: "Blog",
-    titleKey: "title",
-    subtitleKey: "excerpt",
-    hasOrder: false,
-    fields: [
-      { key: "title", label: "Title", type: "text", required: true },
-      { key: "slug", label: "Slug", type: "text", placeholder: "auto-generated if left blank" },
-      { key: "excerpt", label: "Excerpt", type: "textarea", required: true },
-      { key: "content", label: "Content (Markdown)", type: "textarea", required: true },
-      { key: "coverImage", label: "Cover image path", type: "text" },
-      { key: "published", label: "Published", type: "checkbox" },
-    ],
-  },
+  
 ];

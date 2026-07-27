@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { contactFormSchema, type ContactFormValues } from "@/lib/validations";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
-import { socialLinks } from "@/lib/data/nav";
+import { socialLinks, mapEmbedUrl } from "@/lib/data/nav";
 import { FiGithub, FiLinkedin, FiTwitter, FiMail, FiMapPin } from "react-icons/fi";
 
 export default function Contact() {
@@ -119,8 +119,21 @@ export default function Contact() {
           </form>
 
           <div className="flex flex-col gap-6">
-            <div className="glass-card flex aspect-video items-center justify-center p-6 text-white/30">
-              <FiMapPin className="mr-2" /> Google Maps placeholder — embed your location
+            <div className="glass-card aspect-video overflow-hidden p-0">
+              {mapEmbedUrl ? (
+                <iframe
+                  src={mapEmbedUrl}
+                  className="h-full w-full border-0"
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                  title="Location map"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center p-6 text-white/30">
+                  <FiMapPin className="mr-2" /> Google Maps placeholder — embed your location
+                </div>
+              )}
             </div>
 
             <div className="glass-card p-6">

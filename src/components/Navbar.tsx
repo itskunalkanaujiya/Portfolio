@@ -38,7 +38,7 @@ export default function Navbar() {
 
       <nav className="section-container flex items-center justify-between !py-4">
         <a href="#hero" className="font-display text-xl font-bold tracking-tight">
-          <span className="gradient-text">YOUR_NAME</span>
+          <span className="gradient-text">Kunal Kanaujiya</span>
         </a>
 
         {/* Desktop nav */}
@@ -69,7 +69,7 @@ export default function Navbar() {
         </ul>
 
         <div className="hidden lg:block">
-          <a href="/resume/YOUR_RESUME.pdf" download>
+          <a href="/resume/Kunal_Kanaujiya_Resume.pdf" download>
             <Button size="sm">Resume</Button>
           </a>
         </div>
@@ -118,7 +118,7 @@ export default function Navbar() {
                 </li>
               ))}
               <li className="mt-2">
-                <a href="/resume/YOUR_RESUME.pdf" download>
+                <a href="/resume/Kunal_Kanaujiya_Resume.pdf" download>
                   <Button size="sm" className="w-full">
                     Resume
                   </Button>

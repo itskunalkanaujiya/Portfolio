@@ -1,5 +1,5 @@
 "use client";
-
+import { SiLeetcode } from "react-icons/si";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -15,10 +15,11 @@ const HeroScene = dynamic(() => import("@/components/three/HeroScene"), {
 });
 
 const ROLES = [
-  "Full Stack Developer",
-  "UI/UX Enthusiast",
-  "Open Source Contributor",
-  "Problem Solver",
+  "Software Engineer",
+  "AI/ML Developer",
+   "LLM & Agentic AI Enthusiast",
+   "Competitive Programmer"
+
 ];
 
 function useTypingEffect(words: string[], speed = 90, pause = 1400) {
@@ -67,20 +68,18 @@ export default function Hero() {
         >
           <span className="section-eyebrow">Hi, my name is</span>
           <h1 className="section-heading mt-3 !text-5xl sm:!text-6xl lg:!text-7xl">
-            <span className="gradient-text">YOUR_NAME</span>
+            <span className="gradient-text">Kunal Kanaujiya</span>
           </h1>
           <div className="mt-4 h-10 font-display text-2xl font-medium text-white/80 sm:text-3xl">
             {typedText}
             <span className="animate-pulse text-secondary">|</span>
           </div>
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/60">
-            I design and build performant, accessible, and visually striking
-            digital products — from pixel-perfect interfaces to scalable
-            backend systems.
+           I engineer intelligent digital experiences by integrating AI, modern web frameworks, and cloud infrastructure—delivering scalable, high-performance applications from concept to deployment.
           </p>
 
           <div className="mt-10 flex flex-wrap gap-4">
-            <a href="/resume/YOUR_RESUME.pdf" download>
+            <a href="/resume/Kunal_Kanaujiya_Resume.pdf" download>
               <Button size="lg">Download Resume</Button>
             </a>
             <a href="#projects">
@@ -99,7 +98,7 @@ export default function Hero() {
             {[
               { icon: FiGithub, href: socialLinks.github, label: "GitHub" },
               { icon: FiLinkedin, href: socialLinks.linkedin, label: "LinkedIn" },
-              { icon: FiTwitter, href: socialLinks.twitter, label: "Twitter" },
+              { icon: SiLeetcode, href: socialLinks.leetcode, label: "LeetCode" },
               { icon: FiMail, href: socialLinks.email, label: "Email" },
             ].map(({ icon: Icon, href, label }) => (
               <a

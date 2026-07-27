@@ -65,20 +65,3 @@ export const galleryItemSchema = z.object({
   caption: z.string().optional().default(""),
   order: z.number().default(0),
 });
-
-export const testimonialSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  role: z.string().optional().default(""),
-  avatar: z.string().optional().default(""),
-  message: z.string().min(1, "Message is required"),
-  order: z.number().default(0),
-});
-
-export const blogPostSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  slug: z.string().min(1, "Slug is required"),
-  excerpt: z.string().min(1, "Excerpt is required"),
-  content: z.string().min(1, "Content is required"),
-  coverImage: z.string().optional().default(""),
-  published: z.boolean().default(false),
-});

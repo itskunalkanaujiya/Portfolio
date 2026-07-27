@@ -134,7 +134,7 @@ page (`prisma.contactMessage.findMany()`), same pattern as above.
 
 Search the codebase for these placeholders and swap in your real info:
 
-- `Kunal Kanaujiya`, `YOUR_PHOTO`, `YOUR_RESUME.pdf` — Navbar, Hero, Footer, metadata
+- `Kunal Kanaujiya`, `YOUR_PHOTO`, `Kunal_Kanaujiya_Resume.pdf` — Navbar, Hero, Footer, metadata
 - `YOUR_COLLEGE`, `YOUR_SCHOOL` — `prisma/seed.ts` (Education)
 - `COMPANY_NAME`, `COMPANY_LOGO` — `prisma/seed.ts` (Experience)
 - `PROJECT_IMAGE_*`, project titles/descriptions — `prisma/seed.ts` or the Admin dashboard

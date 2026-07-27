@@ -1,10 +1,10 @@
 import { CodingProfile } from "@/types";
 
 export const codingProfiles: CodingProfile[] = [
-  { platform: "LeetCode", username: "YOUR_USERNAME", url: "https://leetcode.com/YOUR_USERNAME", stat: "500+ problems solved", icon: "leetcode" },
-  { platform: "Codeforces", username: "YOUR_USERNAME", url: "https://codeforces.com/profile/YOUR_USERNAME", stat: "Rating 1600+", icon: "codeforces" },
-  { platform: "CodeChef", username: "YOUR_USERNAME", url: "https://www.codechef.com/users/YOUR_USERNAME", stat: "3-star coder", icon: "codechef" },
-  { platform: "GeeksforGeeks", username: "YOUR_USERNAME", url: "https://auth.geeksforgeeks.org/user/YOUR_USERNAME", stat: "Top 5% institute rank", icon: "gfg" },
-  { platform: "GitHub", username: "YOUR_USERNAME", url: "https://github.com/YOUR_USERNAME", stat: "50+ repositories", icon: "github" },
-  { platform: "LinkedIn", username: "YOUR_USERNAME", url: "https://linkedin.com/in/YOUR_USERNAME", stat: "Let's connect", icon: "linkedin" },
+  { platform: "LeetCode", username: "Kunal Kanaujiya", url: "https://leetcode.com/u/7754024423/", stat: "250+ problems solved", icon: "leetcode" },
+  { platform: "GeeksforGeeks", username: "Kunal Kanaujiya", url: "https://www.geeksforgeeks.org/profile/kunalkanaujiya", stat: "Institute Rank -11", icon: "gfg" },
+
+  
+  { platform: "GitHub", username: "itskunalkanaujiya", url: "https://github.com/itskunalkanaujiya", stat: "20+ repositories", icon: "github" },
+  { platform: "LinkedIn", username: "Kunal Kanaujiya", url: "https://www.linkedin.com/in/kunal-kanaujiya-2719902a4/", stat: "Let's connect", icon: "linkedin" },
 ];
