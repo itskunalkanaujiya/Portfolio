@@ -11,6 +11,13 @@ import StatsHighlight from "@/components/sections/StatsHighlight";
 import CodingProfiles from "@/components/sections/CodingProfiles";
 import Contact from "@/components/sections/Contact";
 
+// Force this page to always fetch fresh data from the database on every
+// request instead of serving a cached copy built at deploy time. Without
+// this, admin panel changes (especially deletes) can appear to "not work"
+// on the live site because visitors keep seeing the page as it looked at
+// the last deployment.
+export const dynamic = "force-dynamic";
+
 export default function HomePage() {
   return (
     <>
