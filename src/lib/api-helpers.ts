@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import type { ZodObject, ZodRawShape } from "zod";
 import { getAdminSession } from "@/lib/auth";
 
@@ -55,6 +56,7 @@ export function createListHandlers(
       }
 
       const created = await delegate.create({ data: parsed.data });
+      revalidatePath("/");
       return NextResponse.json(created, { status: 201 });
     } catch (err) {
       console.error("POST list error:", err);
@@ -103,6 +105,7 @@ export function createDetailHandlers(delegate: Delegate, schema: ZodObject<ZodRa
       }
 
       const updated = await delegate.update({ where: { id }, data: parsed.data });
+      revalidatePath("/");
       return NextResponse.json(updated);
     } catch (err) {
       console.error("PUT detail error:", err);
@@ -119,6 +122,7 @@ export function createDetailHandlers(delegate: Delegate, schema: ZodObject<ZodRa
     const { id } = await params;
     try {
       await delegate.delete({ where: { id } });
+      revalidatePath("/");
       return NextResponse.json({ success: true });
     } catch (err) {
       console.error("DELETE detail error:", err);
