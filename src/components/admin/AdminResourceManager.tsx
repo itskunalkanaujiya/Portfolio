@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { FiPlus, FiEdit2, FiTrash2, FiX } from "react-icons/fi";
+import { FiPlus, FiEdit2, FiTrash2, FiX, FiArrowUp, FiArrowDown, FiMenu } from "react-icons/fi";
 import { Button } from "@/components/ui/Button";
 import type { AdminResourceConfig } from "@/types";
 
@@ -24,7 +24,7 @@ function rowToFormValues(config: AdminResourceConfig, row?: Row): FormValues {
   return values;
 }
 
-function buildPayload(config: AdminResourceConfig, values: FormValues, editing: Row | null, rowCount: number) {
+function buildPayload(config: AdminResourceConfig, values: FormValues, editing: Row | null, maxOrder: number) {
   const payload: Record<string, unknown> = {};
   for (const field of config.fields) {
     const value = values[field.key];
@@ -40,7 +40,7 @@ function buildPayload(config: AdminResourceConfig, values: FormValues, editing: 
     }
   }
   if (config.hasOrder !== false) {
-    payload.order = editing?.order ?? rowCount + 1;
+    payload.order = editing?.order ?? maxOrder + 1;
   }
   return payload;
 }
@@ -51,6 +51,8 @@ export function AdminResourceManager({ config }: { config: AdminResourceConfig }
   const [editing, setEditing] = useState<Row | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState<FormValues>(rowToFormValues(config));
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
+  const reorderable = config.hasOrder !== false;
 
   async function load() {
     setLoading(true);
@@ -82,6 +84,30 @@ export function AdminResourceManager({ config }: { config: AdminResourceConfig }
     setShowForm(true);
   }
 
+  async function persistOrder(next: Row[], previous: Row[]) {
+    setRows(next);
+    try {
+      const res = await fetch(`/api/${config.resource}/reorder`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: next.map((r) => r.id) }),
+      });
+      if (!res.ok) throw new Error();
+      toast.success("Order saved.");
+    } catch {
+      setRows(previous);
+      toast.error("Failed to save order.");
+    }
+  }
+
+  function moveRow(from: number, to: number) {
+    if (from === to || to < 0 || to >= rows.length) return;
+    const next = [...rows];
+    const [moved] = next.splice(from, 1);
+    next.splice(to, 0, moved);
+    persistOrder(next, rows);
+  }
+
   async function handleDelete(id: string) {
     if (!confirm(`Delete this ${config.label.toLowerCase().slice(0, -1) || "item"}? This cannot be undone.`)) return;
     try {
@@ -96,7 +122,12 @@ export function AdminResourceManager({ config }: { config: AdminResourceConfig }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const payload = buildPayload(config, form, editing, rows.length);
+    const payload = buildPayload(
+      config,
+      form,
+      editing,
+      Math.max(0, ...rows.map((r) => r.order ?? 0))
+    );
 
     try {
       const res = await fetch(
@@ -136,8 +167,42 @@ export function AdminResourceManager({ config }: { config: AdminResourceConfig }
         <div className="glass-card overflow-x-auto p-2">
           <table className="w-full text-left text-sm">
             <tbody>
-              {rows.map((row) => (
-                <tr key={row.id} className="border-t border-white/5 first:border-t-0">
+              {rows.map((row, index) => (
+                <tr
+                  key={row.id}
+                  draggable={reorderable}
+                  onDragStart={() => setDragIndex(index)}
+                  onDragOver={(e) => reorderable && e.preventDefault()}
+                  onDrop={() => {
+                    if (dragIndex !== null) moveRow(dragIndex, index);
+                    setDragIndex(null);
+                  }}
+                  onDragEnd={() => setDragIndex(null)}
+                  className={`border-t border-white/5 first:border-t-0 ${dragIndex === index ? "opacity-40" : ""}`}
+                >
+                  {reorderable && (
+                    <td className="w-px whitespace-nowrap p-4">
+                      <div className="flex items-center gap-1 text-white/50">
+                        <FiMenu size={14} className="cursor-grab" aria-hidden />
+                        <button
+                          onClick={() => moveRow(index, index - 1)}
+                          disabled={index === 0}
+                          aria-label="Move up"
+                          className="flex h-7 w-7 items-center justify-center rounded-full hover:bg-white/10 hover:text-secondary disabled:opacity-30 disabled:hover:bg-transparent"
+                        >
+                          <FiArrowUp size={14} />
+                        </button>
+                        <button
+                          onClick={() => moveRow(index, index + 1)}
+                          disabled={index === rows.length - 1}
+                          aria-label="Move down"
+                          className="flex h-7 w-7 items-center justify-center rounded-full hover:bg-white/10 hover:text-secondary disabled:opacity-30 disabled:hover:bg-transparent"
+                        >
+                          <FiArrowDown size={14} />
+                        </button>
+                      </div>
+                    </td>
+                  )}
                   <td className="p-4">
                     <p className="font-medium text-white">{String(row[config.titleKey] ?? "")}</p>
                     {config.subtitleKey && (

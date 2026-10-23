@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { FiPlus, FiEdit2, FiTrash2, FiX } from "react-icons/fi";
+import { FiPlus, FiEdit2, FiTrash2, FiX, FiArrowUp, FiArrowDown, FiMenu } from "react-icons/fi";
 import { Button } from "@/components/ui/Button";
 import { slugify } from "@/lib/utils";
 import type { ProjectDTO } from "@/types";
@@ -37,6 +37,7 @@ export function AdminProjects() {
   const [editing, setEditing] = useState<ProjectDTO | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState<ProjectFormState>(emptyForm);
+  const [dragIndex, setDragIndex] = useState<number | null>(null);
 
   async function loadProjects() {
     setLoading(true);
@@ -73,6 +74,30 @@ export function AdminProjects() {
     setShowForm(true);
   }
 
+  async function persistOrder(next: ProjectDTO[], previous: ProjectDTO[]) {
+    setProjects(next);
+    try {
+      const res = await fetch("/api/projects/reorder", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ids: next.map((p) => p.id) }),
+      });
+      if (!res.ok) throw new Error();
+      toast.success("Order saved.");
+    } catch {
+      setProjects(previous);
+      toast.error("Failed to save order.");
+    }
+  }
+
+  function moveProject(from: number, to: number) {
+    if (from === to || to < 0 || to >= projects.length) return;
+    const next = [...projects];
+    const [moved] = next.splice(from, 1);
+    next.splice(to, 0, moved);
+    persistOrder(next, projects);
+  }
+
   async function handleDelete(id: string) {
     if (!confirm("Delete this project? This cannot be undone.")) return;
     try {
@@ -102,7 +127,7 @@ export function AdminProjects() {
       githubUrl: form.githubUrl,
       liveUrl: form.liveUrl,
       featured: form.featured,
-      order: editing?.order ?? projects.length + 1,
+      order: editing?.order ?? Math.max(0, ...projects.map((p) => p.order)) + 1,
     };
 
     try {
@@ -141,6 +166,7 @@ export function AdminProjects() {
           <table className="w-full text-left text-sm">
             <thead>
               <tr className="text-white/40">
+                <th className="p-4">Order</th>
                 <th className="p-4">Title</th>
                 <th className="p-4">Category</th>
                 <th className="p-4">Featured</th>
@@ -148,8 +174,40 @@ export function AdminProjects() {
               </tr>
             </thead>
             <tbody>
-              {projects.map((p) => (
-                <tr key={p.id} className="border-t border-white/5">
+              {projects.map((p, index) => (
+                <tr
+                  key={p.id}
+                  draggable
+                  onDragStart={() => setDragIndex(index)}
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={() => {
+                    if (dragIndex !== null) moveProject(dragIndex, index);
+                    setDragIndex(null);
+                  }}
+                  onDragEnd={() => setDragIndex(null)}
+                  className={`border-t border-white/5 ${dragIndex === index ? "opacity-40" : ""}`}
+                >
+                  <td className="p-4">
+                    <div className="flex items-center gap-1 text-white/50">
+                      <FiMenu size={14} className="cursor-grab" aria-hidden />
+                      <button
+                        onClick={() => moveProject(index, index - 1)}
+                        disabled={index === 0}
+                        aria-label={`Move ${p.title} up`}
+                        className="flex h-7 w-7 items-center justify-center rounded-full hover:bg-white/10 hover:text-secondary disabled:opacity-30 disabled:hover:bg-transparent"
+                      >
+                        <FiArrowUp size={14} />
+                      </button>
+                      <button
+                        onClick={() => moveProject(index, index + 1)}
+                        disabled={index === projects.length - 1}
+                        aria-label={`Move ${p.title} down`}
+                        className="flex h-7 w-7 items-center justify-center rounded-full hover:bg-white/10 hover:text-secondary disabled:opacity-30 disabled:hover:bg-transparent"
+                      >
+                        <FiArrowDown size={14} />
+                      </button>
+                    </div>
+                  </td>
                   <td className="p-4 font-medium text-white">{p.title}</td>
                   <td className="p-4 text-white/60">{p.category}</td>
                   <td className="p-4 text-white/60">{p.featured ? "Yes" : "No"}</td>

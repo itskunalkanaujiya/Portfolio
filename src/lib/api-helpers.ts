@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import type { ZodObject, ZodRawShape } from "zod";
 import { getAdminSession } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
 
 // Every Prisma model delegate (prisma.project, prisma.education, ...) is
 // passed in here. We intentionally type it as `any` rather than a strict
@@ -131,4 +132,34 @@ export function createDetailHandlers(delegate: Delegate, schema: ZodObject<ZodRa
   }
 
   return { GET, PUT, DELETE };
+}
+
+export function createReorderHandler(delegate: Delegate) {
+  async function PUT(req: NextRequest) {
+    const session = await getAdminSession();
+    if (!session) {
+      return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+    }
+
+    try {
+      const body = await req.json();
+      const ids: unknown = body?.ids;
+      if (!Array.isArray(ids) || ids.length === 0 || ids.some((id) => typeof id !== "string")) {
+        return NextResponse.json({ error: "Invalid order data." }, { status: 400 });
+      }
+
+      await prisma.$transaction(
+        (ids as string[]).map((id, index) =>
+          delegate.update({ where: { id }, data: { order: index + 1 } })
+        )
+      );
+      revalidatePath("/");
+      return NextResponse.json({ success: true });
+    } catch (err) {
+      console.error("PUT reorder error:", err);
+      return NextResponse.json({ error: "Failed to save order." }, { status: 500 });
+    }
+  }
+
+  return { PUT };
 }

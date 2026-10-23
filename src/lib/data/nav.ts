@@ -23,7 +23,7 @@ export const socialLinks = {
 // Your headshot/profile photo, shown in the Hero and About sections.
 // Save the actual image file into public/images/ and put its path here,
 // e.g. "/images/profile-photo.jpg". Leave as null to keep the placeholder box.
-export const profilePhoto: string | null ="/images/profile.png";
+export const profilePhoto: string | null ="/images/profile.jpeg";
 
 // Google Maps embed URL shown in the Contact section. Get this from
 // Google Maps -> Share -> "Embed a map" tab -> Copy HTML, then take just the

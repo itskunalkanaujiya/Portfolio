@@ -130,7 +130,7 @@ export default function Hero() {
                   alt="Profile photo"
                   fill
                   sizes="384px"
-                  className="object-cover"
+                  className="object-cover object-top"
                 />
               ) : (
                 "YOUR_PHOTO"
